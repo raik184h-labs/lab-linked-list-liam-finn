@@ -271,7 +271,7 @@ public class MyLinkedList<E> implements List<E> {
         }
         
         Node previous = node;
-        for (int i = 0; i < index - 1; i++) {
+        for (int i = 0; i <= index; i++) {
             previous = node;
             node = node.next;
             if (i == index) {

@@ -3,8 +3,6 @@
  */
 package edu.unl.raikes.linkedlistlab;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -45,7 +43,7 @@ public class MyLinkedList<E> implements List<E> {
         }
 
         public String toString() {
-            return "Node(" + this.toString() + ")";
+            return "Node(" + cargo.toString() + ")";
         }
     }
 
@@ -56,8 +54,8 @@ public class MyLinkedList<E> implements List<E> {
      * .
      */
     public MyLinkedList() {
-        this.head = null;
-        this.size = 0;
+        head = null;
+        size = 0;
     }
 
     /**
@@ -79,48 +77,29 @@ public class MyLinkedList<E> implements List<E> {
 
     @Override
     public boolean add(E element) {
-        if (this.head == null) {
-            this.head = new Node(element);
+        if (head == null) {
+            head = new Node(element);
         } else {
-            Node node = this.head;
+            Node node = head;
             // loop until the last node
             for (; node.next != null; node = node.next) {
             }
             node.next = new Node(element);
         }
-        this.size++;
+        size++;
         return true;
     }
 
     @Override
     public void add(int index, E element) {
-        Node node = this.head;
-
-        if (index == 0) {
-            Node nodeToAdd = new Node(element, node);
-            this.head = nodeToAdd;
-            this.size++;
-            return;
-        }
-
-        Node previous = node;
-        for (int i = 0; i < index; i++) {
-            if (node == null) {
-                throw new IndexOutOfBoundsException();
-            }
-            previous = node;
-            node = node.next;
-        }
-        Node nodeToAdd = new Node(element, node);
-        previous.next = nodeToAdd;
-        this.size++;
+        // TODO: fill this in
     }
 
     @Override
     public boolean addAll(Collection<? extends E> collection) {
         boolean flag = true;
         for (E element : collection) {
-            flag &= this.add(element);
+            flag &= add(element);
         }
         return flag;
     }
@@ -132,19 +111,19 @@ public class MyLinkedList<E> implements List<E> {
 
     @Override
     public void clear() {
-        this.head = null;
-        this.size = 0;
+        head = null;
+        size = 0;
     }
 
     @Override
     public boolean contains(Object obj) {
-        return this.indexOf(obj) != -1;
+        return indexOf(obj) != -1;
     }
 
     @Override
     public boolean containsAll(Collection<?> collection) {
         for (Object obj : collection) {
-            if (!this.contains(obj)) {
+            if (!contains(obj)) {
                 return false;
             }
         }
@@ -153,7 +132,7 @@ public class MyLinkedList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        Node node = this.getNode(index);
+        Node node = getNode(index);
         return node.cargo;
     }
 
@@ -164,10 +143,10 @@ public class MyLinkedList<E> implements List<E> {
      * @return
      */
     private Node getNode(int index) {
-        if (index < 0 || index >= this.size) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
-        Node node = this.head;
+        Node node = head;
         for (int i = 0; i < index; i++) {
             node = node.next;
         }
@@ -176,15 +155,16 @@ public class MyLinkedList<E> implements List<E> {
 
     @Override
     public int indexOf(Object target) {
+        int index = 0;
         Node node = this.head;
-        int index = -1;
-        for (int i = 0; i < this.size; i++) {
-            if (this.equals(target, node.cargo)) {
-                index = i;
+        while (node != null) {
+            if (equals(node, target)) {
+                return index;
             }
             node = node.next;
+            index++;
         }
-        return index;
+        return -1;
     }
 
     /**
@@ -205,21 +185,21 @@ public class MyLinkedList<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        return this.size == 0;
+        return size == 0;
     }
 
     @Override
     public Iterator<E> iterator() {
-        E[] array = (E[]) this.toArray();
+        E[] array = (E[]) toArray();
         return Arrays.asList(array).iterator();
     }
 
     @Override
     public int lastIndexOf(Object target) {
-        Node node = this.head;
+        Node node = head;
         int index = -1;
-        for (int i = 0; i < this.size; i++) {
-            if (this.equals(target, node.cargo)) {
+        for (int i = 0; i < size; i++) {
+            if (equals(target, node.cargo)) {
                 index = i;
             }
             node = node.next;
@@ -239,49 +219,13 @@ public class MyLinkedList<E> implements List<E> {
 
     @Override
     public boolean remove(Object obj) {
-        Node node = this.head;
-        if (this.equals(obj, node.cargo)) {
-            this.head = node.next;
-            this.size--;
-            return true;
-        }
-        Node previous = node;
-
-        for (int i = 0; i < this.size - 1; i++) {
-            previous = node;
-            node = node.next;
-            if (this.equals(obj, node.cargo)) {
-                previous.next = node.next;
-                this.size--;
-                return true;
-            }
-        }
-
+        // TODO: fill this in
         return false;
     }
 
     @Override
     public E remove(int index) {
-        Node node = this.head;
-        if (index == 0) {
-            E cargo = node.cargo;
-            this.head = node.next;
-            this.size--;
-            return cargo;
-        }
-        
-        Node previous = node;
-        for (int i = 0; i < index - 1; i++) {
-            previous = node;
-            node = node.next;
-            if (i == index) {
-                E cargo = node.cargo;
-                previous.next = node.next;
-                this.size--;
-                return cargo;
-            }
-        }
-
+        // TODO: fill this in
         return null;
     }
 
@@ -289,7 +233,7 @@ public class MyLinkedList<E> implements List<E> {
     public boolean removeAll(Collection<?> collection) {
         boolean flag = true;
         for (Object obj : collection) {
-            flag &= this.remove(obj);
+            flag &= remove(obj);
         }
         return flag;
     }
@@ -301,7 +245,7 @@ public class MyLinkedList<E> implements List<E> {
 
     @Override
     public E set(int index, E element) {
-        Node node = this.getNode(index);
+        Node node = getNode(index);
         E old = node.cargo;
         node.cargo = element;
         return old;
@@ -309,18 +253,18 @@ public class MyLinkedList<E> implements List<E> {
 
     @Override
     public int size() {
-        return this.size;
+        return size;
     }
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        if (fromIndex < 0 || toIndex >= this.size || fromIndex > toIndex) {
+        if (fromIndex < 0 || toIndex >= size || fromIndex > toIndex) {
             throw new IndexOutOfBoundsException();
         }
         // TODO: classify this and improve it.
         int i = 0;
         MyLinkedList<E> list = new MyLinkedList<E>();
-        for (Node node = this.head; node != null; node = node.next) {
+        for (Node node = head; node != null; node = node.next) {
             if (i >= fromIndex && i <= toIndex) {
                 list.add(node.cargo);
             }
@@ -331,9 +275,9 @@ public class MyLinkedList<E> implements List<E> {
 
     @Override
     public Object[] toArray() {
-        Object[] array = new Object[this.size];
+        Object[] array = new Object[size];
         int i = 0;
-        for (Node node = this.head; node != null; node = node.next) {
+        for (Node node = head; node != null; node = node.next) {
             // System.out.println(node);
             array[i] = node.cargo;
             i++;

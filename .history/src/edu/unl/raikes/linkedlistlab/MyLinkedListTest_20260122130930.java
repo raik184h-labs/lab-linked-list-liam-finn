@@ -29,8 +29,8 @@ public class MyLinkedListTest {
      */
     @Before
     public void setUp() throws Exception {
-        this.list = new ArrayList<Integer>();
-        this.list.add(1);
+        list = new ArrayList<Integer>();
+        list.add(1);
         list.add(2);
         list.add(3);
 
